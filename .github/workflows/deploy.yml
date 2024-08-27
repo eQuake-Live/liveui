@@ -25,7 +25,8 @@ jobs:
         run: bun i
       - name: Build
         run: bun run build --base=/liveui/
-
+        env:
+          VITE_EQUAKE_API_URL: https://equake-api.deno.dev
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
