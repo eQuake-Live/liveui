@@ -10,9 +10,9 @@ let projection: d3.GeoProjection
 onMount(async () => {
   const geojson = await fetch('/japan.geojson').then((res) => res.json())
 
-  const w = 500
-  const h = 500
-  const scale = 1200
+  const w = 600
+  const h = 600
+  const scale = 900
 
   projection = d3
     .geoMercator()
@@ -60,15 +60,19 @@ $: {
           .append('circle')
           .attr('cx', x)
           .attr('cy', y)
-          .attr('r', 5)
           .attr('fill', 'red')
-          .attr('class', 'fill-red-100')
+          .attr('class', 'opacity-50')
         points.set(id, circle)
       }
 
       const point = points.get(id)
       if (!point) continue
-      point.attr('r', (s.sindo + 4) * 2)
+      const normlizedSindo = (s.sindo + 3) / 10 // 0-1
+
+      // min: 2, max: 10
+      const r = 2 + (10 - 2) * normlizedSindo
+      point.attr('r', r)
+        .attr('fill', `hsl(${normlizedSindo * 240 + 120}deg, 100%, 50%)`)
     }
   }
 }
